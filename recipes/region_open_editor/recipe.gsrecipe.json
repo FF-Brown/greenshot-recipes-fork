@@ -1,0 +1,102 @@
+{
+  "$schema": "https://getgreenshot.org/schemas/recipe.schema.json",
+  "kind": "recipe",
+  "version": "2.0",
+  "id": "region_open_editor",
+  "name": "Region with Drop Shadow in Editor",
+  "description": "Select a screen region, apply a drop shadow, then open it in the Greenshot editor for further edits.",
+  "authors": [
+    {
+      "name": "FF-Brown",
+      "github": "FF-Brown"
+    }
+  ],
+  "copyright": "Copyright (c) 2026 FF-Brown",
+  "license": "MIT",
+  "triggers": [
+    {
+      "triggerType": "ContextMenu",
+      "name": "Region with Drop Shadow Menu Item",
+      "enabled": true,
+      "parameters": {
+        "MenuItemText": "Region with Drop Shadow in Editor",
+        "Group": "Recipes"
+      }
+    },
+    {
+      "triggerType": "Hotkey",
+      "name": "Hotkey Trigger",
+      "enabled": true,
+      "parameters": {
+        "Hotkey": "${option.hotkey}"
+      }
+    }
+  ],
+  "showInContextMenu": true,
+  "requires": [],
+  "options": [
+    {
+      "key": "hotkey",
+      "type": "Hotkey",
+      "default": "Ctrl + Shift + PrintScreen",
+      "label": "Hotkey"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "source",
+      "stepType": "Source",
+      "name": "Prepare for Region",
+      "enabled": true,
+      "parameters": {
+        "SourceType": "Region"
+      }
+    },
+    {
+      "id": "select",
+      "stepType": "InteractiveSelection",
+      "name": "Select Region",
+      "enabled": true,
+      "parameters": {
+        "SelectionMode": "Region"
+      }
+    },
+    {
+      "id": "shadow",
+      "stepType": "Effect",
+      "name": "Apply Drop Shadow",
+      "enabled": true,
+      "parameters": {
+        "Effect": "DropShadow",
+        "ShadowSize": 10,
+        "Darkness": 0.65
+      }
+    },
+    {
+      "id": "editor",
+      "stepType": "Editor",
+      "name": "Open in the Editor",
+      "enabled": true,
+      "parameters": {}
+    }
+  ],
+  "flow": {
+    "startNodes": [
+      "source"
+    ],
+    "transitions": [
+      {
+        "from": "source",
+        "to": "select"
+      },
+      {
+        "from": "select",
+        "to": "shadow"
+      },
+      {
+        "from": "shadow",
+        "to": "editor"
+      }
+    ]
+  }
+}
